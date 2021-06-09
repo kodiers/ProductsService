@@ -1,4 +1,4 @@
-package com.tfl.estore.productsservice.rest;
+package com.tfl.estore.productsservice.command.rest;
 
 import com.tfl.estore.productsservice.command.CreateProductCommand;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -9,12 +9,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
-public class ProductsController {
+public class ProductsCommandController {
 
     private final Environment environment;
     private final CommandGateway commandGateway;
 
-    public ProductsController(Environment environment, CommandGateway commandGateway) {
+    public ProductsCommandController(Environment environment, CommandGateway commandGateway) {
         this.environment = environment;
         this.commandGateway = commandGateway;
     }

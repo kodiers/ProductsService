@@ -1,4 +1,4 @@
-package com.tfl.estore.productsservice.rest;
+package com.tfl.estore.productsservice.command.rest;
 
 import lombok.Data;
 
