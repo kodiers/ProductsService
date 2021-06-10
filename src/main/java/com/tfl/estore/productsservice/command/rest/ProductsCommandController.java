@@ -5,6 +5,7 @@ import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -20,7 +21,7 @@ public class ProductsCommandController {
     }
 
     @PostMapping
-    public String createProduct(@RequestBody CreateProductRestModel createProductRestModel) {
+    public String createProduct(@Valid @RequestBody CreateProductRestModel createProductRestModel) {
 
         CreateProductCommand createProductCommand = CreateProductCommand.builder()
                 .price(createProductRestModel.getPrice())
@@ -38,18 +39,18 @@ public class ProductsCommandController {
         return returnValue;
     }
 
-    @GetMapping
-    public String getProduct() {
-        return "HTTP GET handled";
-    }
-
-    @PutMapping
-    public String updateProduct() {
-        return "HTTP PUT handled";
-    }
-
-    @DeleteMapping
-    public String deleteProduct() {
-        return "HTTP DELETE handled";
-    }
+//    @GetMapping
+//    public String getProduct() {
+//        return "HTTP GET handled";
+//    }
+//
+//    @PutMapping
+//    public String updateProduct() {
+//        return "HTTP PUT handled";
+//    }
+//
+//    @DeleteMapping
+//    public String deleteProduct() {
+//        return "HTTP DELETE handled";
+//    }
 }

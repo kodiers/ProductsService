@@ -34,3 +34,4 @@ build/
 
 products.mv.db
 products.trace.db
+products.lock.db
