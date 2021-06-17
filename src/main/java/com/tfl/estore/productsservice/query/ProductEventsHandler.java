@@ -5,6 +5,7 @@ import com.tfl.estore.productsservice.core.data.ProductsRepository;
 import com.tfl.estore.productsservice.core.events.ProductCreatedEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,17 @@ public class ProductEventsHandler {
     public ProductEventsHandler(ProductsRepository productsRepository) {
         this.productsRepository = productsRepository;
     }
+
+    @ExceptionHandler(resultType = Exception.class)
+    public void handle(Exception exception) {
+
+    }
+
+    @ExceptionHandler(resultType = IllegalArgumentException.class)
+    public void handle(IllegalArgumentException exception) {
+
+    }
+
 
     @EventHandler
     public void on(ProductCreatedEvent event) {
