@@ -1,5 +1,6 @@
 package com.tfl.estore.productsservice.query;
 
+import com.tfl.estore.core.events.ProductReservationCanceledEvent;
 import com.tfl.estore.core.events.ProductReservedEvent;
 import com.tfl.estore.productsservice.core.data.ProductEntity;
 import com.tfl.estore.productsservice.core.data.ProductsRepository;
@@ -46,5 +47,13 @@ public class ProductEventsHandler {
         productEntity.setQuantity(productEntity.getQuantity() - productReservedEvent.getQuantity());
         productsRepository.save(productEntity);
         log.info("ProductReservedEvent handled for order: " + productReservedEvent.getOrderId());
+    }
+
+    @EventHandler
+    public void on(ProductReservationCanceledEvent productReservationCanceledEvent) {
+        ProductEntity storedProduct = productsRepository.findByProductId(productReservationCanceledEvent.getProductId());
+        int newQuantity = storedProduct.getQuantity() + productReservationCanceledEvent.getQuantity();
+        storedProduct.setQuantity(newQuantity);
+        productsRepository.save(storedProduct);
     }
 }

@@ -1,6 +1,8 @@
 package com.tfl.estore.productsservice.command;
 
+import com.tfl.estore.core.commands.CancelProductReservationCommand;
 import com.tfl.estore.core.commands.ReserveProductCommand;
+import com.tfl.estore.core.events.ProductReservationCanceledEvent;
 import com.tfl.estore.core.events.ProductReservedEvent;
 import com.tfl.estore.productsservice.core.events.ProductCreatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
@@ -52,6 +54,18 @@ public class ProductAggregate {
         AggregateLifecycle.apply(productReservedEvent);
     }
 
+    @CommandHandler
+    public void handle(CancelProductReservationCommand command) {
+        ProductReservationCanceledEvent productReservationCanceledEvent = ProductReservationCanceledEvent.builder()
+                .orderId(command.getOrderId())
+                .productId(command.getProductId())
+                .quantity(command.getQuantity())
+                .reason(command.getReason())
+                .userId(command.getUserId())
+                .build();
+        AggregateLifecycle.apply(productReservationCanceledEvent);
+    }
+
     @EventSourcingHandler
     public void on(ProductCreatedEvent productCreatedEvent) {
         this.productId = productCreatedEvent.getProductId();
@@ -63,5 +77,10 @@ public class ProductAggregate {
     @EventSourcingHandler
     public void on(ProductReservedEvent productReservedEvent) {
         this.quantity -= productReservedEvent.getQuantity();
+    }
+
+    @EventSourcingHandler
+    public void on(ProductReservationCanceledEvent productReservationCanceledEvent) {
+        this.quantity += productReservationCanceledEvent.getQuantity();
     }
 }
