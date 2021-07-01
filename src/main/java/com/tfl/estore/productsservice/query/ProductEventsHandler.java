@@ -8,6 +8,7 @@ import com.tfl.estore.productsservice.core.events.ProductCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -55,5 +56,10 @@ public class ProductEventsHandler {
         int newQuantity = storedProduct.getQuantity() + productReservationCanceledEvent.getQuantity();
         storedProduct.setQuantity(newQuantity);
         productsRepository.save(storedProduct);
+    }
+
+    @ResetHandler
+    public void reset() {
+        productsRepository.deleteAll();
     }
 }
